@@ -39,7 +39,7 @@
 
 /*----------------------------system----------------------------*/
 const String _progName = "DIYStreamDeck";
-const String _progVers = "0.2";               // Modes - Test glow LED first.
+const String _progVers = "0.21";              // Mode 0 - Glow
 bool DEBUG_GEN = false;                       // general
 bool DEBUG_USERINPUT = false;                 // user input 
 bool DEBUG_BUTTON = false;                    // button input
