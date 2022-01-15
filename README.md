@@ -32,6 +32,7 @@ Rx and Tx Hardware Serial Connections
 https://github.com/arduino/Arduino
 
 ### Licence
+MIT - Copyright (C) 2022  MTS Standish (Thurstan|mattKsp).<br>
 MIT Licence as specified in original code by Dave Madison (2018).
 
 ### Reference

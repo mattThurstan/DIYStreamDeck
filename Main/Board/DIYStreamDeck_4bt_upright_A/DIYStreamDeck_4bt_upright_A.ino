@@ -47,24 +47,29 @@ bool DEBUG_TOUCH = false;                     // touch input
 bool DEBUG_DISPLAY = false;                   // display output
 
 /*----------------------------display---------------------------*/
-//const uint8_t _ledPin = 17;                    // LED 0 - RX pin used as LED output
-//#define LED_NUM 2;                          // number of LED's
-const uint8_t LED_NUM = 8;
-const uint8_t _ledPin[LED_NUM] = { 
-    10, // 
-    11,  // 
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21
-  };
-uint8_t _loopLedNum = LED_NUM;                // The number of LED's to cycle through during a main loop.
+/*
+ * LED mode 0: 
+ *   The button LEDs and the glow LED are on by default.
+ *   When a button is pressed the button LED turns off.
+ *   Using Glow-In-The-Dark PLA should give a short glow effect.
+ *   
+ * LED mode 1: 
+ *   The button LEDs are off by default. The glow LED is on.
+ *   When a button is pressed the button LED turns on.
+ *   When the button is released there should be a short glow effect.
+ */
+uint8_t _ledMode = 0;                         // Switch for LED light-up modes.
+
+//const uint8_t _ledPin = 17;                 // LED 0 - RX pin used as LED output
+const uint8_t _glowLedPin = 10;               // bottom glow LED
+//uint8_t _glowAmount = 128;                    // Glow amount. For now using single on/off resistor limited LEDs.
+bool _glowEnabled = true;                     // Glow on/off override.
+
+const uint8_t _btLedNum = 4;                  // number of button LED's
+const uint8_t _btLedPin[_btLedNum] = { 11, 12, 13, 14 };
+uint8_t _loopBtLedNum = _btLedNum;            // The number of button LED's to cycle through during a main loop.
+bool _btLedEnabled = true;                    // Button LEDs on/off override.
+
 
 /*----------------------------buttons---------------------------*/
 // Pin definitions
@@ -72,20 +77,12 @@ uint8_t _loopLedNum = LED_NUM;                // The number of LED's to cycle th
 #define BUTTON_PIN2 3
 #define BUTTON_PIN3 4
 #define BUTTON_PIN4 5
-#define BUTTON_PIN5 6
-#define BUTTON_PIN6 7
-#define BUTTON_PIN7 8
-#define BUTTON_PIN8 9
 
 // Key definitions
 #define BUTTON_KEY1 KEY_F13
 #define BUTTON_KEY2 KEY_F14
 #define BUTTON_KEY3 KEY_F15
 #define BUTTON_KEY4 KEY_F16
-#define BUTTON_KEY5 KEY_F17
-#define BUTTON_KEY6 KEY_F18
-#define BUTTON_KEY7 KEY_F19
-#define BUTTON_KEY8 KEY_F20
 
 /* 
  * Button helper class for handling press/release and debouncing. 
@@ -129,11 +126,7 @@ button _buttons[] = {
   {BUTTON_KEY1, BUTTON_PIN1},
   {BUTTON_KEY2, BUTTON_PIN2},
   {BUTTON_KEY3, BUTTON_PIN3},
-  {BUTTON_KEY4, BUTTON_PIN4},
-  {BUTTON_KEY5, BUTTON_PIN5},
-  {BUTTON_KEY6, BUTTON_PIN6},
-  {BUTTON_KEY7, BUTTON_PIN7},
-  {BUTTON_KEY8, BUTTON_PIN8},
+  {BUTTON_KEY4, BUTTON_PIN4}
 };
 const uint8_t _buttonNum = sizeof(_buttons) / sizeof(button);
 
@@ -148,6 +141,6 @@ void setup() {
 }
 
 void loop() {
-  loopUserInput();
+  loopUserInput();                            // User Input has to be before Display!
   loopDisplay();
 }
