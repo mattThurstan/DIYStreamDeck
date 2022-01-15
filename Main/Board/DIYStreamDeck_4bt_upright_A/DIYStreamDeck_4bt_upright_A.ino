@@ -39,7 +39,7 @@
 
 /*----------------------------system----------------------------*/
 const String _progName = "DIYStreamDeck";
-const String _progVers = "0.1";               // Init
+const String _progVers = "0.2";               // Modes - Test glow LED first.
 bool DEBUG_GEN = false;                       // general
 bool DEBUG_USERINPUT = false;                 // user input 
 bool DEBUG_BUTTON = false;                    // button input
@@ -47,28 +47,23 @@ bool DEBUG_TOUCH = false;                     // touch input
 bool DEBUG_DISPLAY = false;                   // display output
 
 /*----------------------------display---------------------------*/
-/*
- * LED mode 0: 
- *   The button LEDs and the glow LED are on by default.
- *   When a button is pressed the button LED turns off.
- *   Using Glow-In-The-Dark PLA should give a short glow effect.
- *   
- * LED mode 1: 
- *   The button LEDs are off by default. The glow LED is on.
- *   When a button is pressed the button LED turns on.
- *   When the button is released there should be a short glow effect.
- */
-uint8_t _ledMode = 0;                         // Switch for LED light-up modes.
-
 //const uint8_t _ledPin = 17;                 // LED 0 - RX pin used as LED output
-const uint8_t _glowLedPin = 10;               // bottom glow LED
-//uint8_t _glowAmount = 128;                    // Glow amount. For now using single on/off resistor limited LEDs.
-bool _glowEnabled = true;                     // Glow on/off override.
 
+#define MODE0                                 // Only 1 mode active at a time. ever. savvy?
+//#define MODE1
+//#define MODE2
+
+//#ifdef MODE1 || MODE2
+#if defined(MODE1) || defined(MODE2)
 const uint8_t _btLedNum = 4;                  // number of button LED's
 const uint8_t _btLedPin[_btLedNum] = { 11, 12, 13, 14 };
 uint8_t _loopBtLedNum = _btLedNum;            // The number of button LED's to cycle through during a main loop.
 bool _btLedEnabled = true;                    // Button LEDs on/off override.
+#endif
+
+const uint8_t _glowLedPin = 10;               // bottom glow LED
+//uint8_t _glowAmount = 128;                    // Glow amount. For now using single on/off resistor limited LEDs.
+bool _glowEnabled = false;                    // Glow on/off override.
 
 
 /*----------------------------buttons---------------------------*/
@@ -116,7 +111,6 @@ class button {
   private:
   const unsigned long debounceTime = 30;
   unsigned long lastPressed = 0;
-  //boolean pressed = 0;
 } ;
 
 /* 
